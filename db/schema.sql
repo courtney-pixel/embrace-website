@@ -10,7 +10,7 @@ create table if not exists subscribers (
 -- All other form submissions (advice, podcast, columns, events)
 create table if not exists submissions (
   id         uuid primary key default gen_random_uuid(),
-  type       text not null check (type in ('advice', 'podcast', 'columns', 'events')),
+  type       text not null check (type in ('advice', 'podcast', 'columns', 'events', 'contact')),
   data       jsonb not null default '{}',
   created_at timestamptz not null default now()
 );
