@@ -1340,6 +1340,15 @@ body::before {
 /* ---- RESPONSIVE ---- */
 
 @media (max-width: 768px) {
+  .hero {
+    aspect-ratio: auto;
+    min-height: 100dvh;
+  }
+
+  .hero__wordmark { width: 82vw; height: auto; max-width: 420px; }
+
+  .hero__inner { padding-bottom: 4rem; }
+
   .navbar__links { display: none; }
   .navbar__right .btn { display: none; }
   .navbar__burger { display: flex; }
