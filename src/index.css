@@ -1342,12 +1342,17 @@ body::before {
 @media (max-width: 768px) {
   .hero {
     aspect-ratio: auto;
-    min-height: 100dvh;
+    height: auto;
+    justify-content: flex-start;
+    padding-top: 0;
+  }
+
+  .hero__inner {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
   }
 
   .hero__wordmark { width: 82vw; height: auto; max-width: 420px; }
-
-  .hero__inner { padding-bottom: 4rem; }
 
   .navbar__links { display: none; }
   .navbar__right .btn { display: none; }
