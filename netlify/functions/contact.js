@@ -37,6 +37,8 @@ export async function handler(event) {
   })
 
   if (!res.ok) {
+    const errText = await res.text()
+    console.error('Supabase error', res.status, errText)
     return { statusCode: 500, body: 'Database error' }
   }
 
