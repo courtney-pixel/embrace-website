@@ -600,7 +600,7 @@ body::before {
 
 .pillars-section {
   background: var(--off-white);
-  padding: clamp(0.75rem, 1.25vw, 1.25rem) 0 clamp(8rem, 12vw, 12rem);
+  padding: clamp(0.75rem, 1.25vw, 1.25rem) 0 clamp(14rem, 18vw, 18rem);
 }
 
 .pillars-heading {
@@ -1513,7 +1513,7 @@ body::before {
   .pillars-questions { height: 120px; }
   .overwhelm-line-img--overlap { margin-top: -1rem; }
   .coming-soon-cards { grid-template-columns: repeat(2, 1fr); }
-  .pillars-section { padding-bottom: 10rem; }
+  .pillars-section { padding-bottom: 14rem; }
 }
 
 @media (max-width: 480px) {
