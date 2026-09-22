@@ -1394,3 +1394,12 @@ body::before {
 @media (max-width: 480px) {
   .coming-soon-cards { grid-template-columns: 1fr; }
 }
+
+@media (min-width: 769px) and (max-width: 1100px) {
+  .pillars-questions img {
+    width: clamp(100px, 14vw, 150px) !important;
+  }
+  .pillars-questions {
+    height: 130px;
+  }
+}
