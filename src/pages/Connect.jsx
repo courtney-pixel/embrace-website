@@ -14,7 +14,7 @@ export default function Connect() {
     if (!fields.name.trim() || !fields.email.trim() || !fields.message.trim()) return
     setStatus('loading')
     try {
-      const res = await fetch('/.netlify/functions/contact', {
+      const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...fields, _honey: '' }),
