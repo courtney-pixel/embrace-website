@@ -607,7 +607,7 @@ body::before {
 
 .pillars-section {
   background: var(--off-white);
-  padding: clamp(0.75rem, 1.25vw, 1.25rem) 0 clamp(2rem, 3.5vw, 3.5rem);
+  padding: clamp(0.75rem, 1.25vw, 1.25rem) 0 clamp(5rem, 8vw, 8rem);
 }
 
 .pillars-heading {
