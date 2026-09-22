@@ -31,10 +31,10 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className={`navbar${scrolled ? ' navbar--scrolled' : ''}${isBlue ? ' navbar--blue' : ''}`}>
+      <nav className={`navbar${scrolled ? ' navbar--scrolled' : ''}${isBlue ? ' navbar--blue' : ''}${menuOpen ? ' navbar--menu-open' : ''}`}>
         <Link to="/" className="navbar__logo" onClick={close}>
           <img
-            src={scrolled ? '/embrace-co-blue.svg' : '/embrace-co-yellow.svg'}
+            src={(menuOpen || !scrolled) ? '/embrace-co-yellow.svg' : '/embrace-co-blue.svg'}
             alt="Embrace"
             className={`navbar__wordmark${isHome ? ' navbar__wordmark--home' : ''}`}
           />

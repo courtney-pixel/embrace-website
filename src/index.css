@@ -299,6 +299,13 @@ body::before {
 }
 
 .navbar--scrolled .navbar__burger span { background: var(--blue); }
+.navbar--menu-open .navbar__burger span { background: var(--off-white); }
+
+.navbar--menu-open {
+  background: var(--blue);
+  backdrop-filter: none;
+  box-shadow: none;
+}
 
 .navbar__burger span.open:nth-child(1) { transform: translateY(7px) rotate(45deg); }
 .navbar__burger span.open:nth-child(2) { opacity: 0; }
@@ -307,7 +314,11 @@ body::before {
 /* Mobile menu */
 .mobile-menu {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 100dvh;
   z-index: 99;
   background: var(--blue);
   display: flex;
@@ -315,6 +326,8 @@ body::before {
   align-items: center;
   justify-content: center;
   gap: 2.5rem;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  overscroll-behavior: none;
   transform: translateX(100%);
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
