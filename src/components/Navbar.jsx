@@ -47,8 +47,23 @@ export default function Navbar() {
 
   const close = () => setMenuOpen(false)
 
+  const safeAreaBg = isBlue ? '#0d00a4' : scrolled ? '#fff2bd' : 'transparent'
+
   return (
     <>
+      <div
+        aria-hidden="true"
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          height: 'env(safe-area-inset-top, 0px)',
+          background: safeAreaBg,
+          zIndex: 10000,
+          pointerEvents: 'none',
+        }}
+      />
       <nav className={`navbar${scrolled ? ' navbar--scrolled' : ''}${isBlue ? ' navbar--blue' : ''}`}>
         <Link to="/" className="navbar__logo" onClick={close}>
           <img
