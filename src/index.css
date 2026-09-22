@@ -1076,14 +1076,14 @@ body::before {
 
 .overwhelm-section {
   background: var(--off-white);
-  padding: clamp(4rem, 8vw, 7rem) 0 clamp(3rem, 5vw, 5rem);
+  padding: clamp(5rem, 10vw, 9rem) 0 clamp(4rem, 7vw, 7rem);
   text-align: center;
 }
 
 .overwhelm-section__inner {
-  max-width: 720px;
+  max-width: 960px;
   margin: 0 auto;
-  padding: 0 clamp(1.25rem, 5vw, 3rem);
+  padding: 0 clamp(1.25rem, 5vw, 5rem);
 }
 
 .overwhelm-lines {
@@ -1091,10 +1091,10 @@ body::before {
 }
 
 .overwhelm-heading {
-  margin-top: 3rem;
+  margin-top: 4rem;
   font-family: 'League Spartan', sans-serif;
   font-weight: 700;
-  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-size: clamp(2.4rem, 5vw, 4rem);
   color: var(--blue);
   line-height: 1.1;
 }
@@ -1105,7 +1105,10 @@ body::before {
   font-size: clamp(1rem, 1.5vw, 1.25rem);
   color: var(--blue);
   line-height: 1.6;
-  margin-top: 1.25rem;
+  margin-top: 1.5rem;
+  max-width: 52ch;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 @media (max-width: 768px) {
