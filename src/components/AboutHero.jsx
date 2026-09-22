@@ -36,7 +36,7 @@ export default function AboutHero() {
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true, margin: '0px 0px -8% 0px' }}
                 transition={{ delay: i * 0.1, duration: 0.25, ease: 'easeOut' }}
-                style={{ display: 'block', width: '100%', height: 'auto', marginTop: i === 0 ? 0 : '-2.5rem' }}
+                className={i === 0 ? 'overwhelm-line-img' : 'overwhelm-line-img overwhelm-line-img--overlap'}
               />
             ))}
           </div>

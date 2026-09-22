@@ -665,12 +665,13 @@ body::before {
 .pillars-puzzle-wrapper {
   transform: rotate(-7deg);
   padding: 1.5rem;
+  max-width: 380px;
 }
 
 .pillars-puzzle-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px;
+  gap: 8px;
   align-items: start;
 }
 
@@ -1089,6 +1090,16 @@ body::before {
   overflow: hidden;
 }
 
+.overwhelm-line-img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.overwhelm-line-img--overlap {
+  margin-top: -2.5rem;
+}
+
 .overwhelm-heading {
   margin-top: 4rem;
   font-family: 'League Spartan', sans-serif;
@@ -1490,7 +1501,8 @@ body::before {
   .podcast-grid > *:first-child { order: 2; }
   .vision-layout { grid-template-columns: 1fr; }
   .pillars-layout { grid-template-columns: 1fr; }
-  .pillars-puzzle-wrapper { transform: none; filter: none; }
+  .pillars-puzzle-wrapper { transform: none; filter: none; max-width: 280px; margin: 0 auto; }
+  .overwhelm-line-img--overlap { margin-top: -1rem; }
   .coming-soon-cards { grid-template-columns: repeat(2, 1fr); }
 }
 
