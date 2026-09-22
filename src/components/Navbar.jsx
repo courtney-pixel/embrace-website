@@ -53,6 +53,7 @@ export default function Navbar() {
     <>
       <div
         aria-hidden="true"
+        className="navbar__safe-area-cover"
         style={{
           position: 'fixed',
           top: 0,

@@ -740,7 +740,7 @@ body::before {
 .pillars-left-col {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-end;
 }
 
 .pillars-list {
@@ -777,7 +777,8 @@ body::before {
   height: 160px;
   margin-top: -2.5rem;
   overflow: visible;
-  width: 100%;
+  width: 380px;
+  max-width: 100%;
 }
 
 /* ---- PODCAST ---- */
@@ -1131,7 +1132,7 @@ body::before {
     grid-template-columns: 1fr;
   }
   .about-hero__left {
-    padding-top: calc(clamp(2rem, 4vw, 3rem) + 5rem);
+    padding-top: clamp(2rem, 4vw, 3rem);
     padding-bottom: clamp(2rem, 4vw, 3rem);
   }
   .about-hero__photo-panel {
@@ -1480,17 +1481,21 @@ body::before {
   }
 
   .hero__inner {
-    padding-top: 5rem;
+    padding-top: 2rem;
     padding-bottom: 5rem;
   }
 
   .hero__wordmark { width: 82vw; height: auto; max-width: 420px; }
 
   .navbar {
+    position: relative;
+    top: 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
+
+  .navbar__safe-area-cover { display: none; }
 
   .navbar__links { display: none; }
   .navbar__right .btn { display: none; }
@@ -1506,10 +1511,13 @@ body::before {
 
   .podcast-grid > *:first-child { order: 2; }
   .vision-layout { grid-template-columns: 1fr; }
-  .pillars-layout { grid-template-columns: 1fr; }
-  .pillars-puzzle-wrapper { transform: none; filter: none; width: 280px; max-width: 100%; }
-  .pillars-questions img { width: clamp(80px, 18vw, 110px) !important; }
-  .pillars-questions { height: 120px; }
+  .pillars-layout { grid-template-columns: 1fr; row-gap: 1.5rem; }
+  .pillars-left-col { align-items: center; }
+  .pillars-puzzle-wrapper { transform: none; filter: none; width: clamp(280px, 70vw, 380px); max-width: 100%; }
+  .pillars-questions { height: 120px; width: clamp(280px, 70vw, 380px); max-width: 100%; }
+  .pillars-questions img { width: clamp(90px, 20vw, 120px) !important; }
+  .pillars-copy { padding-top: 0; text-align: center; }
+  .pillars-list { text-align: left; display: inline-block; }
   .overwhelm-line-img--overlap { margin-top: -1rem; }
   .coming-soon-cards { grid-template-columns: repeat(2, 1fr); }
   .pillars-section { padding-bottom: 8rem; }
