@@ -24,34 +24,49 @@ export default function Podcast() {
 
   return (
     <>
-      <main className="cs-page">
-        <div className="cs-page__top">
-          <span className="label-tag cs-page__label">Coming soon</span>
-          <h1 className="display-xl" style={{ color: 'var(--off-white)' }}>Podcast</h1>
+      <main className="cs-page cs-page--split">
+        <div className="cs-page__video-col">
+          <div className="cs-page__video-frame">
+            <video
+              src="/podcast-preview.mp4"
+              autoPlay
+              muted
+              loop
+              playsInline
+              className="cs-page__video"
+            />
+          </div>
         </div>
 
-        <div className="cs-page__bottom">
-          {status === 'success' ? (
-            <p className="cs-page__thanks">Love it. Thanks for the suggestion.</p>
-          ) : (
-            <form className="cs-page__form" onSubmit={handleSubmit}>
-              <p className="cs-page__question">Got a topic or guest in mind?</p>
-              <div className="cs-page__input-row">
-                <input
-                  type="text"
-                  className="cs-page__input"
-                  value={value}
-                  onChange={e => setValue(e.target.value)}
-                  placeholder="Tell us what you're thinking..."
-                  disabled={status === 'loading'}
-                />
-                <button type="submit" className="btn btn-white btn-sm" disabled={status === 'loading'}>
-                  {status === 'loading' ? '...' : 'Send'}
-                </button>
-              </div>
-              {status === 'error' && <p className="cs-page__error">Something went wrong. Try again.</p>}
-            </form>
-          )}
+        <div className="cs-page__content">
+          <div className="cs-page__top">
+            <span className="label-tag cs-page__label">Coming soon</span>
+            <h1 className="display-xl" style={{ color: 'var(--off-white)' }}>Podcast</h1>
+          </div>
+
+          <div className="cs-page__bottom">
+            {status === 'success' ? (
+              <p className="cs-page__thanks">Love it. Thanks for the suggestion.</p>
+            ) : (
+              <form className="cs-page__form" onSubmit={handleSubmit}>
+                <p className="cs-page__question">Got a topic or guest in mind?</p>
+                <div className="cs-page__input-row">
+                  <input
+                    type="text"
+                    className="cs-page__input"
+                    value={value}
+                    onChange={e => setValue(e.target.value)}
+                    placeholder="Tell us what you're thinking..."
+                    disabled={status === 'loading'}
+                  />
+                  <button type="submit" className="btn btn-white btn-sm" disabled={status === 'loading'}>
+                    {status === 'loading' ? '...' : 'Send'}
+                  </button>
+                </div>
+                {status === 'error' && <p className="cs-page__error">Something went wrong. Try again.</p>}
+              </form>
+            )}
+          </div>
         </div>
       </main>
       <Footer />
