@@ -1505,6 +1505,7 @@ body::before {
   .pillars-puzzle-wrapper { transform: none; filter: none; max-width: 280px; margin: 0 auto; }
   .overwhelm-line-img--overlap { margin-top: -1rem; }
   .coming-soon-cards { grid-template-columns: repeat(2, 1fr); }
+  .pillars-section { padding-bottom: 7rem; }
 }
 
 @media (max-width: 480px) {
