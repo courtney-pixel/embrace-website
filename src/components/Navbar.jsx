@@ -12,6 +12,7 @@ const links = [
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [isMobile, setIsMobile] = useState(() => window.matchMedia('(max-width: 768px)').matches)
   const { pathname } = useLocation()
   const isHome = pathname === '/'
   const isBlue = pathname === '/about' && !scrolled
@@ -20,6 +21,13 @@ export default function Navbar() {
     const onScroll = () => setScrolled(window.scrollY > 1)
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 768px)')
+    const handler = (e) => setIsMobile(e.matches)
+    mq.addEventListener('change', handler)
+    return () => mq.removeEventListener('change', handler)
   }, [])
 
   useEffect(() => {
@@ -68,7 +76,7 @@ export default function Navbar() {
       <nav className={`navbar${scrolled ? ' navbar--scrolled' : ''}${isBlue ? ' navbar--blue' : ''}`}>
         <Link to="/" className="navbar__logo" onClick={close}>
           <img
-            src={scrolled ? '/embrace-co-blue.svg' : '/embrace-co-yellow.svg'}
+            src={(scrolled || isMobile) ? '/embrace-co-blue.svg' : '/embrace-co-yellow.svg'}
             alt="Embrace"
             className={`navbar__wordmark${isHome ? ' navbar__wordmark--home' : ''}`}
           />
