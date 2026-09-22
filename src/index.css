@@ -677,6 +677,7 @@ body::before {
   transform: rotate(-7deg);
   padding: 1.5rem;
   max-width: 380px;
+  margin: 0 auto;
 }
 
 .pillars-puzzle-grid {
