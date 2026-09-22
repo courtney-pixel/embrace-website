@@ -23,18 +23,36 @@ export default function Navbar() {
   }, [])
 
   useEffect(() => {
-    document.body.style.overflow = menuOpen ? 'hidden' : ''
-    return () => { document.body.style.overflow = '' }
+    if (menuOpen) {
+      const y = window.scrollY
+      document.body.style.position = 'fixed'
+      document.body.style.top = `-${y}px`
+      document.body.style.width = '100%'
+      document.body.style.overflow = 'hidden'
+    } else {
+      const top = document.body.style.top
+      document.body.style.position = ''
+      document.body.style.top = ''
+      document.body.style.width = ''
+      document.body.style.overflow = ''
+      if (top) window.scrollTo(0, -parseInt(top, 10))
+    }
+    return () => {
+      document.body.style.position = ''
+      document.body.style.top = ''
+      document.body.style.width = ''
+      document.body.style.overflow = ''
+    }
   }, [menuOpen])
 
   const close = () => setMenuOpen(false)
 
   return (
     <>
-      <nav className={`navbar${scrolled ? ' navbar--scrolled' : ''}${isBlue ? ' navbar--blue' : ''}${menuOpen ? ' navbar--menu-open' : ''}`}>
+      <nav className={`navbar${scrolled ? ' navbar--scrolled' : ''}${isBlue ? ' navbar--blue' : ''}`}>
         <Link to="/" className="navbar__logo" onClick={close}>
           <img
-            src={(menuOpen || !scrolled) ? '/embrace-co-yellow.svg' : '/embrace-co-blue.svg'}
+            src={scrolled ? '/embrace-co-blue.svg' : '/embrace-co-yellow.svg'}
             alt="Embrace"
             className={`navbar__wordmark${isHome ? ' navbar__wordmark--home' : ''}`}
           />
@@ -69,6 +87,17 @@ export default function Navbar() {
       </nav>
 
       <div className={`mobile-menu${menuOpen ? ' mobile-menu--open' : ''}`}>
+        <div className="mobile-menu__header">
+          <Link to="/" className="mobile-menu__logo" onClick={close}>
+            <img src="/embrace-co-yellow.svg" alt="Embrace" style={{ height: '1.6rem', width: 'auto', display: 'block' }} />
+          </Link>
+          <button className="mobile-menu__close" onClick={close} aria-label="Close menu">
+            <span />
+            <span />
+            <span />
+          </button>
+        </div>
+
         <ul>
           {links.map(l => (
             <li key={l.to}>
