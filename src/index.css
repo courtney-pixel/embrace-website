@@ -204,13 +204,11 @@ body::before {
   align-items: center;
   padding: 1.25rem clamp(1.25rem, 5vw, 5rem);
   padding-top: max(1.25rem, env(safe-area-inset-top, 0px));
-  transform: translateZ(0);
-  transition: background 0.1s ease, backdrop-filter 0.1s ease, box-shadow 0.2s ease;
+  transition: box-shadow 0.2s ease;
 }
 
 .navbar--scrolled {
-  background: rgba(255,242,189,0.96);
-  backdrop-filter: blur(14px);
+  background: var(--yellow);
   box-shadow: 0 1px 0 rgba(0,0,0,0.07);
 }
 
@@ -404,6 +402,7 @@ body::before {
   text-align: center;
   padding-top: 4rem;
   position: relative;
+  z-index: 1;
   overflow: hidden;
 }
 
@@ -1128,6 +1127,8 @@ body::before {
 .coming-soon-section {
   background: var(--off-white);
   padding: clamp(3rem, 6vw, 6rem) 0 clamp(2rem, 4vw, 4rem);
+  position: relative;
+  z-index: 1;
 }
 
 .coming-soon-cards {
@@ -1278,6 +1279,7 @@ body::before {
     text-align: center;
     padding: 6rem 1.5rem 4rem;
     gap: 2.5rem;
+    min-height: unset;
   }
   .cs-page--split .cs-page__top { align-items: center; }
   .cs-page__video-frame {
