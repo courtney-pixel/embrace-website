@@ -16,6 +16,7 @@ const CARDS = [
     subtitle: 'Podcast',
     image: '/coming-soon/2.webp',
     to: '/podcast',
+    bgPosition: 'center 15%',
   },
   {
     id: 3,
@@ -72,7 +73,7 @@ export default function ComingSoon() {
                 style={{
                   backgroundImage: `url(${card.image})`,
                   backgroundSize: 'cover',
-                  backgroundPosition: 'center',
+                  backgroundPosition: card.bgPosition || 'center',
                   borderRadius: '1.25rem',
                   height: 'clamp(300px, 30vw, 420px)',
                   position: 'relative',
