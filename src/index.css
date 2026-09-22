@@ -1057,8 +1057,6 @@ body::before {
   align-items: center;
   justify-content: center;
   padding: clamp(2.5rem, 5vw, 5rem);
-  padding-top: calc(clamp(2.5rem, 5vw, 5rem) + 5rem);
-  padding-bottom: clamp(2.5rem, 5vw, 5rem);
 }
 
 .about-hero__title {
