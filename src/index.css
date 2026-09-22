@@ -1040,77 +1040,83 @@ body::before {
 
 .about-hero {
   display: grid;
-  grid-template-columns: 2fr 3fr;
-  min-height: 100dvh;
+  grid-template-columns: 1fr 1fr;
 }
 
 .about-hero__left {
   background: var(--blue);
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
-  padding: clamp(2rem, 5vw, 4rem);
-  padding-top: calc(clamp(2rem, 5vw, 4rem) + 5rem);
+  padding: clamp(2.5rem, 5vw, 5rem);
+  padding-top: calc(clamp(2.5rem, 5vw, 5rem) + 5rem);
+  padding-bottom: clamp(2.5rem, 5vw, 5rem);
 }
 
 .about-hero__title {
   width: 100%;
-  max-width: 520px;
+  max-width: 460px;
   height: auto;
 }
 
-.about-hero__right {
-  background: var(--off-white);
-  padding: clamp(2rem, 5vw, 4rem);
-  padding-top: calc(clamp(2rem, 5vw, 4rem) + 5rem);
-  display: flex;
-  flex-direction: column;
+.about-hero__photo-panel {
+  overflow: hidden;
+  min-height: 340px;
 }
 
-.about-hero__heading {
-  margin-top: 2.5rem;
-  font-family: 'League Spartan', sans-serif;
-  font-weight: 700;
-  font-size: clamp(2rem, 4vw, 3.5rem);
-  color: var(--blue);
-  text-align: right;
-  line-height: 1.1;
-}
-
-.about-hero__body {
-  font-family: 'Poppins', sans-serif;
-  font-weight: 400;
-  font-size: clamp(1rem, 1.6vw, 1.35rem);
-  color: var(--blue);
-  text-align: right;
-  line-height: 1.5;
-  margin-top: 1.25rem;
-}
-
-@media (max-width: 768px) {
-  .about-hero {
-    grid-template-columns: 1fr;
-    min-height: auto;
-  }
-  .about-hero__left {
-    min-height: 40dvh;
-  }
-  .about-hero__right {
-    padding-top: 2.5rem;
-  }
+.about-hero__photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 /* ---- OVERWHELM SECTION ---- */
 
 .overwhelm-section {
   background: var(--off-white);
-  padding: clamp(4rem, 8vw, 8rem) 0 clamp(2rem, 4vw, 4rem);
+  padding: clamp(4rem, 8vw, 7rem) 0 clamp(3rem, 5vw, 5rem);
+  text-align: center;
 }
 
 .overwhelm-section__inner {
-  max-width: 1100px;
+  max-width: 720px;
   margin: 0 auto;
-  padding: 0 clamp(1.25rem, 5vw, 5rem);
+  padding: 0 clamp(1.25rem, 5vw, 3rem);
+}
+
+.overwhelm-lines {
+  overflow: hidden;
+}
+
+.overwhelm-heading {
+  margin-top: 3rem;
+  font-family: 'League Spartan', sans-serif;
+  font-weight: 700;
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  color: var(--blue);
+  line-height: 1.1;
+}
+
+.overwhelm-body {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
+  color: var(--blue);
+  line-height: 1.6;
+  margin-top: 1.25rem;
+}
+
+@media (max-width: 768px) {
+  .about-hero {
+    grid-template-columns: 1fr;
+  }
+  .about-hero__left {
+    padding-bottom: clamp(2rem, 4vw, 3rem);
+  }
+  .about-hero__photo-panel {
+    min-height: 260px;
+  }
 }
 
 /* ---- COMING SOON ---- */
