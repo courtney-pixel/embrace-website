@@ -298,7 +298,7 @@ body::before {
   transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
-.navbar--scrolled .navbar__burger span { background: var(--text); }
+.navbar--scrolled .navbar__burger span { background: var(--blue); }
 
 .navbar__burger span.open:nth-child(1) { transform: translateY(7px) rotate(45deg); }
 .navbar__burger span.open:nth-child(2) { opacity: 0; }
@@ -966,7 +966,7 @@ body::before {
   padding: 0.4rem 0.9rem;
   border-radius: 0.4rem;
   border: none;
-  background: var(--white);
+  background: var(--yellow);
   color: var(--blue);
   cursor: pointer;
   transition: opacity 0.2s ease;
