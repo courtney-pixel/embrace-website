@@ -1094,7 +1094,7 @@ body::before {
   margin-top: 4rem;
   font-family: 'League Spartan', sans-serif;
   font-weight: 700;
-  font-size: clamp(2.4rem, 5vw, 4rem);
+  font-size: clamp(2.4rem, 4.5vw, 4rem);
   color: var(--blue);
   line-height: 1.1;
 }
@@ -1102,7 +1102,7 @@ body::before {
 .overwhelm-body {
   font-family: 'Poppins', sans-serif;
   font-weight: 400;
-  font-size: clamp(1rem, 1.5vw, 1.25rem);
+  font-size: clamp(1rem, 1.4vw, 1.15rem);
   color: var(--blue);
   line-height: 1.6;
   margin-top: 1.5rem;
@@ -1228,6 +1228,61 @@ body::before {
   font-size: 0.78rem;
   color: var(--pink);
   margin-top: 0.5rem;
+}
+
+/* ---- PODCAST SPLIT LAYOUT ---- */
+
+.cs-page--split {
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(3rem, 8vw, 8rem);
+  text-align: left;
+  padding: 6rem clamp(1.25rem, 6vw, 6rem) 4rem;
+}
+
+.cs-page--split .cs-page__top { align-items: flex-start; }
+.cs-page--split .cs-page__bottom { max-width: 480px; }
+
+.cs-page__content {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  flex: 1;
+  max-width: 520px;
+}
+
+.cs-page__video-col {
+  flex-shrink: 0;
+}
+
+.cs-page__video-frame {
+  width: clamp(200px, 22vw, 300px);
+  aspect-ratio: 9 / 16;
+  border-radius: 1.5rem;
+  overflow: hidden;
+  background: rgba(255,255,255,0.06);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+}
+
+.cs-page__video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .cs-page--split {
+    flex-direction: column;
+    text-align: center;
+    padding: 6rem 1.5rem 4rem;
+    gap: 2.5rem;
+  }
+  .cs-page--split .cs-page__top { align-items: center; }
+  .cs-page__video-frame {
+    width: clamp(160px, 55vw, 240px);
+  }
 }
 
 /* ---- FORM PAGES ---- */
