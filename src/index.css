@@ -204,7 +204,8 @@ body::before {
   align-items: center;
   padding: 1.25rem clamp(1.25rem, 5vw, 5rem);
   padding-top: max(1.25rem, env(safe-area-inset-top, 0px));
-  transition: background 0.35s ease, backdrop-filter 0.35s ease, box-shadow 0.35s ease;
+  transform: translateZ(0);
+  transition: background 0.1s ease, backdrop-filter 0.1s ease, box-shadow 0.2s ease;
 }
 
 .navbar--scrolled {

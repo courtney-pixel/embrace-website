@@ -17,7 +17,7 @@ export default function Navbar() {
   const isBlue = pathname === '/about' && !scrolled
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 5)
+    const onScroll = () => setScrolled(window.scrollY > 1)
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
