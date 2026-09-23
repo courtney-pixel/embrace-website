@@ -506,6 +506,52 @@ body::before {
   color: var(--off-white);
 }
 
+/* ---- HERO MARQUEE ---- */
+
+.marquee-wrap {
+  background: var(--yellow);
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem clamp(1.25rem, 5vw, 5rem);
+  gap: 0;
+  flex-wrap: wrap;
+  row-gap: 0.4rem;
+}
+
+.marquee-item {
+  font-family: 'League Spartan', sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.2rem, 2.4vw, 2.4rem);
+  color: var(--blue);
+  line-height: 1.15;
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.marquee-dash {
+  display: inline-block;
+  width: clamp(0.75rem, 1.5vw, 1.5rem);
+  height: 2px;
+  background: var(--blue);
+  margin: 0 clamp(0.6rem, 1.2vw, 1.2rem);
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .marquee-item {
+    font-size: clamp(0.85rem, 3.8vw, 1.1rem);
+    white-space: normal;
+    text-align: center;
+  }
+  .marquee-dash {
+    width: 1.2rem;
+    margin: 0 0.5rem;
+  }
+}
+
 /* ---- WHAT IS EMBRACE ---- */
 
 .what-section {
@@ -600,7 +646,7 @@ body::before {
 
 .pillars-section {
   background: var(--off-white);
-  padding: clamp(0.75rem, 1.25vw, 1.25rem) 0 clamp(6rem, 9vw, 9rem);
+  padding: clamp(0.375rem, 0.625vw, 0.625rem) 0 clamp(1.5rem, 2.5vw, 2.5rem);
 }
 
 .pillars-heading {
@@ -661,8 +707,8 @@ body::before {
 
 .pillars-layout {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(3rem, 7vw, 7rem);
+  grid-template-columns: 50% 1fr;
+  gap: 0;
   align-items: start;
 }
 
@@ -701,11 +747,12 @@ body::before {
 .pillars-copy {
   max-width: 46ch;
   padding-top: clamp(2rem, 4vw, 3.5rem);
+  padding-right: clamp(1.25rem, 5vw, 5rem);
 }
 
 .pillars-headline {
   font-family: 'League Spartan', sans-serif;
-  font-size: clamp(2.4rem, 4.5vw, 4rem);
+  font-size: clamp(1.9rem, 3.6vw, 3.2rem);
   font-weight: 700;
   color: var(--blue);
   line-height: 1.0;
@@ -741,6 +788,8 @@ body::before {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  padding-left: clamp(1.25rem, 5vw, 5rem);
+  padding-right: clamp(2rem, 4vw, 4rem);
 }
 
 .pillars-list {
@@ -1082,7 +1131,7 @@ body::before {
 
 .overwhelm-section {
   background: var(--off-white);
-  padding: clamp(5rem, 10vw, 9rem) 0 clamp(4rem, 7vw, 7rem);
+  padding: clamp(5rem, 10vw, 9rem) 0 clamp(2rem, 3.5vw, 3.5rem);
   text-align: center;
 }
 
@@ -1090,6 +1139,15 @@ body::before {
   max-width: 960px;
   margin: 0 auto;
   padding: 0 clamp(1.25rem, 5vw, 5rem);
+}
+
+.our-why-heading {
+  font-family: 'League Spartan', sans-serif;
+  font-weight: 900;
+  font-size: clamp(3rem, 6vw, 6rem);
+  color: var(--blue);
+  line-height: 1.1;
+  margin-bottom: 2.5rem;
 }
 
 .overwhelm-lines {
@@ -1107,10 +1165,10 @@ body::before {
 }
 
 .overwhelm-heading {
-  margin-top: 4rem;
+  margin-top: 2rem;
   font-family: 'League Spartan', sans-serif;
   font-weight: 700;
-  font-size: clamp(2.4rem, 4.5vw, 4rem);
+  font-size: clamp(1.9rem, 3.6vw, 3.2rem);
   color: var(--blue);
   line-height: 1.1;
 }
@@ -1118,11 +1176,29 @@ body::before {
 .overwhelm-body {
   font-family: 'Poppins', sans-serif;
   font-weight: 400;
-  font-size: clamp(1rem, 1.4vw, 1.15rem);
+  font-size: clamp(1.3rem, 1.75vw, 1.45rem);
   color: var(--blue);
   line-height: 1.6;
   margin-top: 1.5rem;
   max-width: 52ch;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.vision-about-section {
+  background: var(--off-white);
+  padding: clamp(1rem, 2vw, 2rem) 0 clamp(4rem, 7vw, 7rem);
+  text-align: center;
+}
+
+.vision-about-inner {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 clamp(1.25rem, 5vw, 5rem);
+}
+
+.vision-about-inner .overwhelm-body {
+  margin-top: 1.5rem;
   margin-left: auto;
   margin-right: auto;
 }
@@ -1513,23 +1589,26 @@ body::before {
 
   .podcast-grid > *:first-child { order: 2; }
   .vision-layout { grid-template-columns: 1fr; }
-  .pillars-layout { grid-template-columns: 1fr; row-gap: 1.5rem; }
-  .pillars-left-col { align-items: center; }
+  .overwhelm-line-img--overlap { margin-top: -1rem; }
+  .coming-soon-cards { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 900px) {
+  .pillars-layout { grid-template-columns: 1fr; row-gap: 2rem; }
+  .pillars-left-col { align-items: center; padding-left: clamp(1.25rem, 5vw, 5rem); padding-right: clamp(1.25rem, 5vw, 5rem); }
   .pillars-puzzle-wrapper { transform: none; filter: none; width: 320px; max-width: 100%; }
   .pillars-questions { height: 120px; width: 320px; max-width: 100%; }
   .pillars-questions img { width: 90px !important; }
-  .pillars-copy { padding-top: 0; text-align: center; }
+  .pillars-copy { padding-top: 0; padding-right: 0; text-align: center; margin: 0 auto; }
   .pillars-list { text-align: left; display: inline-block; }
-  .overwhelm-line-img--overlap { margin-top: -1rem; }
-  .coming-soon-cards { grid-template-columns: repeat(2, 1fr); }
-  .pillars-section { padding-bottom: 8rem; }
+  .pillars-section { padding-bottom: 4rem; }
 }
 
 @media (max-width: 480px) {
   .coming-soon-cards { grid-template-columns: 1fr; }
 }
 
-@media (min-width: 769px) and (max-width: 1100px) {
+@media (min-width: 901px) and (max-width: 1100px) {
   .pillars-questions img {
     width: clamp(100px, 14vw, 150px) !important;
   }

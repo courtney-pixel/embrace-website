@@ -1,4 +1,5 @@
 import { motion } from 'motion/react'
+import MarqueeStrip from './MarqueeStrip'
 
 const LINES = [
   '/lines/line-1.png',
@@ -23,8 +24,11 @@ export default function AboutHero() {
         </div>
       </section>
 
+      <MarqueeStrip />
+
       <section className="overwhelm-section">
         <div className="overwhelm-section__inner">
+          <h2 className="our-why-heading">Our Why</h2>
           <div className="overwhelm-lines">
             {LINES.map((src, i) => (
               <motion.img

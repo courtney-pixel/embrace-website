@@ -23,7 +23,6 @@ const PUZZLE_PIECES = [
 export default function ContentPillars() {
   return (
     <section className="pillars-section">
-      <div className="container">
         <div className="pillars-layout">
 
           <div className="pillars-left-col">
@@ -52,7 +51,7 @@ export default function ContentPillars() {
                   transition={{ delay: i * 0.15, duration: 0.3, ease: 'easeOut' }}
                   style={{
                     position: 'absolute',
-                    width: 'clamp(140px, 22vw, 200px)',
+                    width: 'clamp(110px, 16vw, 155px)',
                     height: 'auto',
                     transform: `rotate(${q.rotate})`,
                     top: q.top,
@@ -82,7 +81,6 @@ export default function ContentPillars() {
           </div>
 
         </div>
-      </div>
     </section>
   )
 }
