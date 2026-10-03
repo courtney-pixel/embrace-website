@@ -1,8 +1,8 @@
 const ITEMS = [
   'Experiences',
-  'Raw conversations',
-  'Practical advice',
-  'Accessible resources',
+  'Raw Conversations',
+  'Practical Advice',
+  'Accessible Resources',
 ]
 
 export default function MarqueeStrip() {
