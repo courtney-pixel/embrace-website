@@ -10,7 +10,7 @@ export default function Advice() {
     if (!value.trim()) return
     setStatus('loading')
     try {
-      const res = await fetch('/.netlify/functions/submit', {
+      const res = await fetch('/api/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ type: 'advice', question: value, _honey: '' }),
