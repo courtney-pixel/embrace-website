@@ -1,25 +1,35 @@
 /**
- * Keeps the Supabase project counted as active and alerts by email when the
- * database stops responding. Runs daily as a Vercel cron job, and can also be
- * opened in a browser to check the current state.
+ * Keeps the Supabase project counted as active by performing a real read, and
+ * reports the result as JSON. Called on a schedule by the Modal app
+ * embrace-supabase-keepalive, which owns the alerting, and can also be opened
+ * in a browser to check the current state.
+ *
+ * This endpoint does not email anyone. The Vercel cron that used to call it was
+ * removed on 31 Oct 2026, because CRON_SECRET was never set on the project, so
+ * its alert branch could never fire and the layer was decorative. Modal polls
+ * this same URL and emails via Gmail instead.
  *
  * Inputs required:
  *   SUPABASE_URL          Supabase project REST base URL.
  *   SUPABASE_SERVICE_KEY  Service role key. Bypasses RLS on submissions.
- *   CRON_SECRET           Set on the project, so Vercel sends it as a bearer
- *                         token on cron invocations. Gates the alert email.
- *   RESEND_API_KEY        Optional. Without it no alert can be sent.
- *   NOTIFY_EMAIL          Optional. Alert recipient, see lib/notify.js.
+ *   CRON_SECRET           Unset, and nothing sets it. Retained only so that
+ *                         re-adding a Vercel cron would restore alerting; while
+ *                         it is absent the notifyOutage branch is unreachable.
+ *   RESEND_API_KEY        Only used if that branch is ever revived.
+ *   NOTIFY_EMAIL          Same. Modal alerts via Gmail, not Resend.
  *
  * Process:
  *   1. Read one row from the submissions table, which is a genuine database
  *      round trip rather than a gateway ping, so it counts as project activity.
  *   2. Answer 200 { ok: true, db: "up" } when that read succeeds.
  *   3. On failure, answer 503 { ok: false } with the reason.
- *   4. Email an alert, but only when the caller is the Vercel cron.
+ *   4. Email an alert only when the caller proves it is a Vercel cron, which
+ *      nothing currently does. Modal treats a non-ok body as the alert signal.
  *
- * Quality criteria: a daily 200 keeps the free tier project from being paused
- * for inactivity, and any failure produces exactly one email to NOTIFY_EMAIL.
+ * Quality criteria: a 200 on every scheduled Modal call keeps the free tier
+ * project from being paused for inactivity. Supabase documents activity as
+ * "a few user requests to the database each day", so the caller, not this
+ * endpoint, determines whether that bar is met.
  *
  * Edge cases:
  *   - Free tier pause: the hostname stops resolving, fetch throws ENOTFOUND.
@@ -27,7 +37,8 @@
  *   - Supabase gateway incident: returns Cloudflare 521 or 502 HTML. Caught by
  *     the same !dbRes.ok branch, and the status code is named in the alert.
  *   - Opened in a browser by anyone: performs the check and reports status, but
- *     sends no email, so the endpoint cannot be used to generate mail.
+ *     sends no email, so the endpoint cannot be used to generate mail. This is
+ *     now true of every caller, Modal included.
  *   - An empty submissions table still returns 200. The check is that the query
  *     succeeded, not that rows exist.
  *
