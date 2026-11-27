@@ -58,12 +58,18 @@ export default function Connect() {
   const [status, setStatus] = useState('idle')
   // null while loading, [] when the feed is unavailable
   const [posts, setPosts] = useState(null)
+  // The strip stays hidden until the real feed answers, so it never shows stand-ins only.
+  const [feedLive, setFeedLive] = useState(false)
 
   useEffect(() => {
     let live = true
     fetch('/api/instagram')
       .then(r => r.json())
-      .then(d => { if (live) setPosts(d.ok ? d.posts : []) })
+      .then(d => {
+        if (!live) return
+        setPosts(d.ok ? d.posts : [])
+        setFeedLive(Boolean(d.ok))
+      })
       .catch(() => { if (live) setPosts([]) })
     return () => { live = false }
   }, [])
@@ -158,7 +164,7 @@ export default function Connect() {
         </div>
       </main>
 
-      {stripPosts.length === STRIP_POSTS && (
+      {feedLive && stripPosts.length === STRIP_POSTS && (
         <section className="cn-strip">
           <div className="cn-strip__head">
             <h2 className="display-lg">
