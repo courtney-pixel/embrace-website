@@ -16,8 +16,8 @@ export default function Navbar() {
   const { pathname } = useLocation()
   const isHome = pathname === '/'
   const isBlue = pathname === '/about' && !scrolled
-  // Columns pages sit on a light background, so the unscrolled nav uses the dark links and blue logo
-  const isLight = pathname.startsWith('/columns') && !scrolled
+  // Columns and Events sit on a light background, so the unscrolled nav uses the dark links and blue logo
+  const isLight = (pathname.startsWith('/columns') || pathname === '/events') && !scrolled
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 1)
