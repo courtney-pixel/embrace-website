@@ -98,7 +98,7 @@ export default function Connect() {
       <main className="cn-hero">
         <div className="cn-hero__wrap">
           <div className="cn-hero__copy">
-            <h1 className="display-xl" style={{ color: 'var(--off-white)' }}>Connect</h1>
+            <h1 className="cn-title"><img src="/connect/connect.svg" alt="Connect" /></h1>
             <p className="cn-hero__lead">
               We'd love to hear from you. Reach out for collabs, press, or just to say hi. Or slide
               into the DMs, we read those too.

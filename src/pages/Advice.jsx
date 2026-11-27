@@ -48,7 +48,7 @@ export default function Advice() {
       <main className="adv-page">
         <div className="adv-grid">
           <div>
-            <h1 className="adv-title">Ask us anything.</h1>
+            <h1 className="adv-title"><img src="/advice/ask-us-anything.svg" alt="Ask us anything" /></h1>
             <span className="adv-scr">Embrace, your confidant</span>
             <p className="adv-sub">A space to come to if you feel stuck, confused, or just need some words of encouragement.</p>
             <p className="adv-sub adv-sub--anon">All questions are anonymous.</p>

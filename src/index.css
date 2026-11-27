@@ -1462,8 +1462,9 @@ body::before {
 .cn-hero {
   background: var(--blue);
   color: var(--off-white);
-  padding: 6rem clamp(1.25rem, 5vw, 5rem) clamp(4rem, 7vw, 6rem);
+  padding: calc(4.5rem + clamp(2rem, 5vw, 4rem)) clamp(1.25rem, 5vw, 5rem) clamp(4rem, 7vw, 6rem);
 }
+@media (max-width: 768px) { .cn-hero { padding-top: 6rem; } }
 
 .cn-hero__wrap {
   display: flex;
@@ -1479,7 +1480,8 @@ body::before {
   max-width: 520px;
 }
 
-.cn-hero__copy .display-xl { margin-bottom: 1.25rem; }
+.cn-title { width: clamp(240px, 30vw, 420px); margin: 0 0 1.25rem; line-height: 0; }
+.cn-title img { display: block; width: 100%; height: auto; }
 
 .cn-hero__lead {
   font-family: 'Poppins', sans-serif;
@@ -1662,6 +1664,7 @@ body::before {
 @media (max-width: 860px) {
   .cn-hero__wrap { flex-direction: column; text-align: center; }
   .cn-hero__copy { width: 100%; }
+  .cn-title { margin-left: auto; margin-right: auto; }
   .cn-hero__lead { margin-left: auto; margin-right: auto; }
   .cn-hero__form .btn { align-self: stretch; justify-content: center; }
   .cn-phone { transform: none; width: clamp(260px, 76vw, 320px); text-align: left; }
@@ -2071,8 +2074,10 @@ body::before {
 
 .adv-page { background: var(--blue); color: var(--off-white); padding: calc(4.5rem + clamp(2rem, 5vw, 4rem)) clamp(1rem, 5vw, 5rem) clamp(3rem, 7vw, 6rem); }
 .adv-grid { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 1fr minmax(0, 480px); gap: clamp(2rem, 6vw, 6rem); align-items: center; }
-.adv-title { font-family: 'League Spartan', sans-serif; font-weight: 900; font-size: clamp(3.4rem, 8.5vw, 7.5rem); line-height: .85; letter-spacing: -.045em; margin: 0; }
-.adv-scr { display: block; font-family: 'Meow Script', cursive; font-weight: 400; line-height: 1; color: var(--pink); font-size: clamp(2rem, 4vw, 3.2rem); margin-top: .7rem; transform: rotate(-4deg); transform-origin: left; }
+/* the SVG has ~4.2% empty canvas on its left, pulled back so the words line up with the text below */
+.adv-title { width: clamp(280px, 40vw, 560px); margin: 0; line-height: 0; }
+.adv-title img { display: block; width: 100%; height: auto; margin-left: -4.2%; }
+.adv-scr { display: block; font-family: 'Meow Script', cursive; font-weight: 400; line-height: 1; color: var(--pink); font-size: clamp(2rem, 4vw, 3.2rem); margin-top: .2rem; transform: rotate(-4deg); transform-origin: left; }
 .adv-sub { font-family: 'Poppins', sans-serif; font-size: clamp(.95rem, 1.3vw, 1.08rem); line-height: 1.65; opacity: .8; max-width: 40ch; margin-top: 1.8rem; }
 .adv-sub--anon { margin-top: .6rem; }
 
