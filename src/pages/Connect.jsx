@@ -5,6 +5,24 @@ const IG_URL = 'https://instagram.com/embracethecommunity'
 const PHONE_POSTS = 9
 const STRIP_POSTS = 6
 
+// Embrace photos that fill the grid while the account has few posts. Real posts
+// always come first, so these drop out on their own as the feed grows.
+const STAND_INS = [
+  'were-so-back', 'pod-solo', 'flowers', 'tennis', 'studio', 'hanna',
+  'words', 'anthony', 'sunset', 'studio-two', 'pink-laptop', 'couch',
+].map(name => ({ id: `stand-in-${name}`, image: `/connect/${name}.jpg`, permalink: IG_URL }))
+
+function fillTiles(posts) {
+  const tiles = [...posts, ...STAND_INS]
+  // 12 stand-ins cannot fill 15 slots alone, so repeat from the fourth one on,
+  // which keeps the repeats out of the phone's first row.
+  for (let i = 3; tiles.length < PHONE_POSTS + STRIP_POSTS; i++) {
+    const s = STAND_INS[i % STAND_INS.length]
+    tiles.push({ ...s, id: `${s.id}-${i}` })
+  }
+  return tiles.slice(0, PHONE_POSTS + STRIP_POSTS)
+}
+
 function KindIcon({ type }) {
   if (type === 'VIDEO') {
     return (
@@ -71,14 +89,13 @@ export default function Connect() {
     }
   }
 
-  // Too few posts to fill the phone reads as broken, so hide the feed entirely.
-  const hasFeed = posts === null || posts.length >= PHONE_POSTS
-  const phonePosts = posts ? posts.slice(0, PHONE_POSTS) : Array(PHONE_POSTS).fill(null)
-  const stripPosts = posts ? posts.slice(PHONE_POSTS, PHONE_POSTS + STRIP_POSTS) : []
+  const tiles = posts ? fillTiles(posts) : null
+  const phonePosts = tiles ? tiles.slice(0, PHONE_POSTS) : Array(PHONE_POSTS).fill(null)
+  const stripPosts = tiles ? tiles.slice(PHONE_POSTS) : []
 
   return (
     <>
-      <main className={`cn-hero${hasFeed ? '' : ' cn-hero--solo'}`}>
+      <main className="cn-hero">
         <div className="cn-hero__wrap">
           <div className="cn-hero__copy">
             <h1 className="display-xl" style={{ color: 'var(--off-white)' }}>Connect</h1>
@@ -123,23 +140,21 @@ export default function Connect() {
             )}
           </div>
 
-          {hasFeed && (
-            <div className="cn-phone">
-              <div className="cn-phone__screen">
-                <div className="cn-phone__profile">
-                  <span className="cn-avatar"><span /></span>
-                  <div>
-                    <p className="cn-phone__handle">embracethecommunity</p>
-                    <p className="cn-phone__bio">come figure it out with us</p>
-                  </div>
-                </div>
-                <a className="cn-phone__follow" href={IG_URL} target="_blank" rel="noopener noreferrer">Follow</a>
-                <div className="cn-tiles cn-tiles--phone">
-                  {phonePosts.map((p, i) => <Tile key={p?.id || i} post={p} />)}
+          <div className="cn-phone">
+            <div className="cn-phone__screen">
+              <div className="cn-phone__profile">
+                <span className="cn-avatar"><span /></span>
+                <div>
+                  <p className="cn-phone__handle">embracethecommunity</p>
+                  <p className="cn-phone__bio">come figure it out with us</p>
                 </div>
               </div>
+              <a className="cn-phone__follow" href={IG_URL} target="_blank" rel="noopener noreferrer">Follow</a>
+              <div className="cn-tiles cn-tiles--phone">
+                {phonePosts.map((p, i) => <Tile key={p?.id || i} post={p} />)}
+              </div>
             </div>
-          )}
+          </div>
         </div>
       </main>
 

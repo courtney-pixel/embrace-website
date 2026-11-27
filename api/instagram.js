@@ -28,7 +28,8 @@
  *
  * Edge cases:
  *   - No token row yet: answers ok: false, configured: false. The Connect page
- *     then renders the form on its own, exactly as before the feed existed.
+ *     then fills the phone and strip with stand-in Embrace photos, and does the
+ *     same for any slots real posts do not fill.
  *   - Token lifetime: 60 days, refreshable only once it is 24 hours old and
  *     before it expires (Meta, Refresh Access Token reference). An expired
  *     token cannot be refreshed and must be regenerated in the dashboard.
@@ -44,7 +45,7 @@
  * Failure handling: a failed refresh is logged and the existing token is still
  * used, since it stays valid until its 60 days run out. A failed media request
  * answers ok: false, configured: true with the Instagram error, cached for five
- * minutes, so the keep-alive can alert while the page quietly hides the feed.
+ * minutes, so the keep-alive can alert while the page shows stand-in photos.
  * Every outbound call is wrapped, so the function always returns JSON.
  */
 
