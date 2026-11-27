@@ -7,6 +7,7 @@ import About from './pages/About'
 import Events from './pages/Events'
 import Podcast from './pages/Podcast'
 import Columns from './pages/Columns'
+import ColumnPost from './pages/ColumnPost'
 import Advice from './pages/Advice'
 import Connect from './pages/Connect'
 import Placeholder from './pages/Placeholder'
@@ -28,6 +29,7 @@ export default function App() {
         <Route path="/events" element={<Events />} />
         <Route path="/podcast" element={<Podcast />} />
         <Route path="/columns" element={<Columns />} />
+        <Route path="/columns/:slug" element={<ColumnPost />} />
         <Route path="/advice" element={<Advice />} />
         <Route path="/connect" element={<Connect />} />
         <Route path="/about" element={<About />} />

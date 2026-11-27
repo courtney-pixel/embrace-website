@@ -16,6 +16,8 @@ export default function Navbar() {
   const { pathname } = useLocation()
   const isHome = pathname === '/'
   const isBlue = pathname === '/about' && !scrolled
+  // Columns pages sit on a light background, so the unscrolled nav uses the dark links and blue logo
+  const isLight = pathname.startsWith('/columns') && !scrolled
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 1)
@@ -73,10 +75,10 @@ export default function Navbar() {
           pointerEvents: 'none',
         }}
       />
-      <nav className={`navbar${scrolled ? ' navbar--scrolled' : ''}${isBlue ? ' navbar--blue' : ''}`}>
+      <nav className={`navbar${scrolled ? ' navbar--scrolled' : ''}${isBlue ? ' navbar--blue' : ''}${isLight ? ' navbar--light' : ''}`}>
         <Link to="/" className="navbar__logo" onClick={close}>
           <img
-            src={(scrolled || isMobile) ? '/embrace-co-blue.svg' : '/embrace-co-yellow.svg'}
+            src={(scrolled || isMobile || isLight) ? '/embrace-co-blue.svg' : '/embrace-co-yellow.svg'}
             alt="Embrace"
             className={`navbar__wordmark${isHome ? ' navbar__wordmark--home' : ''}`}
           />
