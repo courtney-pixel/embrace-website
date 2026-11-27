@@ -42,3 +42,20 @@ create policy "No public access" on submissions for all using (false);
 -- Supabase's generic migration snippet in here.
 grant select, insert, update, delete on public.subscribers to service_role;
 grant select, insert, update, delete on public.submissions to service_role;
+
+-- Instagram feed token for api/instagram.js (added 27 Nov 2026).
+-- One row, name = 'instagram'. api/instagram.js refreshes the token weekly and
+-- writes it back here, which an env var cannot do. Same lockdown as above:
+-- RLS on, no public policy, service_role grant only.
+create table if not exists site_tokens (
+  name         text primary key,
+  token        text not null,
+  refreshed_at timestamptz not null default now(),
+  expires_at   timestamptz
+);
+alter table site_tokens enable row level security;
+create policy "No public access" on site_tokens for all using (false);
+grant select, insert, update, delete on public.site_tokens to service_role;
+-- Seed once, after generating the token in the Meta App Dashboard:
+--   insert into site_tokens (name, token, expires_at)
+--   values ('instagram', '<paste token>', now() + interval '60 days');

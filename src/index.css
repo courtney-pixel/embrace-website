@@ -1457,6 +1457,235 @@ body::before {
   }
 }
 
+/* ---- CONNECT: split hero with Instagram phone ---- */
+
+.cn-hero {
+  background: var(--blue);
+  color: var(--off-white);
+  padding: 6rem clamp(1.25rem, 5vw, 5rem) clamp(4rem, 7vw, 6rem);
+}
+
+.cn-hero__wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(3rem, 8vw, 8rem);
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+.cn-hero__copy {
+  flex: 1;
+  max-width: 520px;
+}
+
+.cn-hero__copy .display-xl { margin-bottom: 1.25rem; }
+
+.cn-hero__lead {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: rgba(255,242,189,0.7);
+  max-width: 42ch;
+  margin-bottom: 2rem;
+}
+
+.cn-hero__form .btn { align-self: flex-start; }
+
+/* No feed: the page reverts to the original centred form */
+.cn-hero--solo {
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+}
+.cn-hero--solo .cn-hero__wrap { width: 100%; }
+.cn-hero--solo .cn-hero__copy {
+  max-width: 560px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.cn-hero--solo .cn-hero__lead { margin-left: auto; margin-right: auto; }
+.cn-hero--solo .cn-hero__form { width: 100%; }
+.cn-hero--solo .cn-hero__form .btn { align-self: center; }
+
+.cn-phone {
+  flex-shrink: 0;
+  width: clamp(250px, 26vw, 330px);
+  border-radius: 2.2rem;
+  background: var(--white);
+  color: var(--text);
+  padding: 10px;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.45);
+  transform: rotate(2deg);
+}
+
+.cn-phone__screen {
+  border-radius: 1.7rem;
+  overflow: hidden;
+  background: var(--white);
+}
+
+.cn-phone__profile {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 1.1rem 0.9rem 0.7rem;
+}
+
+.cn-avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  padding: 2px;
+  background: linear-gradient(45deg, var(--orange), var(--pink), var(--red));
+  flex-shrink: 0;
+}
+
+.cn-avatar span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: var(--blue) url(/embrace-co-yellow.svg) center / 70% no-repeat;
+  border: 2px solid var(--white);
+}
+
+.cn-phone__profile > div { min-width: 0; }
+
+.cn-phone__handle {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: 0.82rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cn-phone__bio {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.7rem;
+  color: var(--muted);
+  line-height: 1.4;
+  margin-top: 0.15rem;
+}
+
+.cn-phone__follow {
+  display: block;
+  margin: 0.2rem 0.9rem 0.8rem;
+  text-align: center;
+  background: var(--blue);
+  color: var(--off-white);
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.5rem;
+  border-radius: 0.6rem;
+  text-decoration: none;
+}
+
+.cn-tiles { display: grid; }
+.cn-tiles--phone { grid-template-columns: repeat(3, 1fr); gap: 2px; }
+
+.cn-tile {
+  position: relative;
+  display: block;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: rgba(13,0,164,0.08);
+}
+
+.cn-tile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+.cn-tile::after {
+  content: 'View on Instagram';
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: rgba(13,0,164,0.72);
+  color: var(--off-white);
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.cn-tile:hover::after { opacity: 1; }
+.cn-tile:hover img { transform: scale(1.04); }
+.cn-tiles--phone .cn-tile::after { font-size: 0.6rem; }
+
+.cn-tile--loading { animation: cn-pulse 1.4s ease-in-out infinite; }
+.cn-tile--loading::after { display: none; }
+@keyframes cn-pulse { 50% { opacity: 0.5; } }
+
+.cn-tile__kind {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 18px;
+  height: 18px;
+  color: var(--white);
+  filter: drop-shadow(0 1px 3px rgba(0,0,0,0.5));
+  z-index: 1;
+}
+
+.cn-strip {
+  background: var(--yellow);
+  padding: clamp(3rem, 6vw, 5rem) clamp(1.25rem, 5vw, 5rem);
+}
+
+.cn-strip__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 1rem;
+  flex-wrap: wrap;
+  max-width: 1300px;
+  margin: 0 auto 1.5rem;
+}
+
+.cn-strip__head h2 { color: var(--blue); }
+
+.cn-strip__script {
+  display: block;
+  font-weight: 400;
+  font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+  line-height: 1;
+  letter-spacing: 0;
+  margin-bottom: 0.1rem;
+}
+
+.cn-strip__btn svg { width: 1em; height: 1em; flex-shrink: 0; }
+
+.cn-tiles--strip {
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+.cn-tiles--strip .cn-tile { border-radius: 0.8rem; }
+
+@media (max-width: 860px) {
+  .cn-hero__wrap { flex-direction: column; text-align: center; }
+  .cn-hero__copy { width: 100%; }
+  .cn-hero__lead { margin-left: auto; margin-right: auto; }
+  .cn-hero__form .btn { align-self: stretch; justify-content: center; }
+  .cn-phone { transform: none; width: clamp(260px, 76vw, 320px); text-align: left; }
+  .cn-tiles--strip { grid-template-columns: repeat(3, 1fr); }
+}
+
 /* ---- FORM PAGES ---- */
 
 .form-page {
