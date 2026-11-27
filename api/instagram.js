@@ -1,38 +1,40 @@
 /**
- * Serves the latest @embracethecommunity Instagram posts to the Connect page,
- * and keeps the Instagram access token alive by refreshing it in Supabase.
+ * Serves the latest @embracethecommunity Instagram posts to the Connect page.
  *
  * Inputs required:
  *   SUPABASE_URL          Supabase project REST base URL.
  *   SUPABASE_SERVICE_KEY  Service role key. The token lives in site_tokens,
  *                         which has no anon access.
- *   site_tokens row       name = 'instagram', holding a long-lived Instagram
- *                         User token generated in the Meta App Dashboard under
- *                         Instagram > API setup with Instagram business login.
+ *   site_tokens row       name = 'instagram', holding a Business Integration
+ *                         System User token (the dashboard calls it SUAT) from
+ *                         Use cases > Manage messaging & content on Instagram >
+ *                         API setup with Unified login > Generate token.
  *                         Seeded once by hand with the SQL in db/schema.sql.
  *
  * Process:
  *   1. Read the token row from site_tokens.
- *   2. If it was last refreshed more than REFRESH_AFTER_DAYS ago, call
- *      graph.instagram.com/refresh_access_token and write the new token back.
- *   3. Request the newest media from graph.instagram.com/v27.0/me/media.
+ *   2. Find the Instagram account ID with /me/assigned_instagram_accounts. With
+ *      this token /me is the system user, not the Instagram account (Meta,
+ *      Unified login Authentication page), so /me/media does not work.
+ *   3. Request the newest media from graph.facebook.com/v27.0/<id>/media.
  *   4. Reduce each post to { id, type, image, permalink, timestamp }, using the
  *      cover image for videos and the first child for carousels.
- *   5. Answer { ok, configured, token_refreshed_at, posts }, cached at the
- *      edge for an hour. The keep-alive alerts when token_refreshed_at is
- *      more than two weeks old, well inside the 60 day expiry.
+ *   5. Answer { ok, configured, posts }, cached at the edge for an hour.
  *
  * Quality criteria: a 200 with ok: true and up to MAX_POSTS posts, each with an
- * image URL and a permalink. The token's refreshed_at never gets older than
- * REFRESH_AFTER_DAYS while the Modal keep-alive is calling this endpoint.
+ * image URL and a permalink.
  *
  * Edge cases:
  *   - No token row yet: answers ok: false, configured: false. The Connect page
  *     then fills the phone and strip with stand-in Embrace photos, and does the
  *     same for any slots real posts do not fill.
- *   - Token lifetime: 60 days, refreshable only once it is 24 hours old and
- *     before it expires (Meta, Refresh Access Token reference). An expired
- *     token cannot be refreshed and must be regenerated in the dashboard.
+ *   - Token lifetime: the configuration was created with expiration Never, so
+ *     there is nothing to refresh. It stops working if the app is removed from
+ *     the business portfolio or the Instagram account moves to another one
+ *     (Meta, Unified login Authentication page). The keep-alive alerts then.
+ *   - Instagram's own API setup with Instagram login, which used refreshable
+ *     60 day tokens on graph.instagram.com, is not offered to apps created
+ *     after Meta introduced Unified login, so it is not supported here.
  *   - media_url is omitted on videos with licensed audio (Meta, IG Media
  *     reference), so videos use thumbnail_url, and posts with no usable image
  *     are dropped rather than rendered as broken tiles.
@@ -40,20 +42,18 @@
  *   - Instagram CDN URLs carry no documented lifetime, so responses are cached
  *     for an hour only and stale copies are revalidated in the background.
  *   - Cache busting: the keep-alive adds ?ping=<time>, which is a separate
- *     cache key, so its call always reaches this function and runs the refresh.
+ *     cache key, so its call always reaches this function and tests the token.
  *
- * Failure handling: a failed refresh is logged and the existing token is still
- * used, since it stays valid until its 60 days run out. A failed media request
- * answers ok: false, configured: true with the Instagram error, cached for five
- * minutes, so the keep-alive can alert while the page shows stand-in photos.
- * Every outbound call is wrapped, so the function always returns JSON.
+ * Failure handling: a failed account lookup or media request answers ok: false,
+ * configured: true with Meta's error, cached for five minutes, so the keep-alive
+ * can alert while the page shows stand-in photos. Every outbound call is
+ * wrapped, so the function always returns JSON.
  */
 
-const GRAPH = 'https://graph.instagram.com'
+const GRAPH = 'https://graph.facebook.com'
 const API_VERSION = 'v27.0'
+const ACCOUNT = 'embracethecommunity'
 const MAX_POSTS = 15
-const REFRESH_AFTER_DAYS = 7
-const DAY_MS = 24 * 60 * 60 * 1000
 
 export default async function handler(req, res) {
   res.setHeader('Content-Type', 'application/json')
@@ -64,23 +64,25 @@ export default async function handler(req, res) {
     return res.status(500).json({ ok: false, configured: false, error: 'Server not configured', posts: [] })
   }
 
-  const db = {
-    apikey: SUPABASE_SERVICE_KEY,
-    Authorization: `Bearer ${SUPABASE_SERVICE_KEY}`,
-  }
-
   function fail(status, error, configured) {
     res.setHeader('Cache-Control', 'public, s-maxage=300')
     return res.status(status).json({ ok: false, configured, error, posts: [] })
   }
 
+  async function graph(path) {
+    const sep = path.includes('?') ? '&' : '?'
+    const r = await fetch(`${GRAPH}/${API_VERSION}/${path}${sep}access_token=${encodeURIComponent(token)}`)
+    const body = await r.json()
+    if (!r.ok) throw new Error(`Meta responded ${r.status}: ${body?.error?.message || 'unknown error'}`)
+    return body
+  }
+
   // 1. Token
   let row
   try {
-    const r = await fetch(
-      `${SUPABASE_URL}/rest/v1/site_tokens?name=eq.instagram&select=token,refreshed_at`,
-      { headers: db }
-    )
+    const r = await fetch(`${SUPABASE_URL}/rest/v1/site_tokens?name=eq.instagram&select=token`, {
+      headers: { apikey: SUPABASE_SERVICE_KEY, Authorization: `Bearer ${SUPABASE_SERVICE_KEY}` },
+    })
     if (!r.ok) return fail(503, `Token lookup failed: Supabase responded ${r.status}`, false)
     row = (await r.json())[0]
   } catch (err) {
@@ -88,52 +90,19 @@ export default async function handler(req, res) {
   }
 
   if (!row?.token) return fail(200, 'No Instagram token stored yet', false)
+  const token = row.token
 
-  let token = row.token
-  let refreshed = null
-
-  // 2. Refresh
-  const age = Date.now() - new Date(row.refreshed_at).getTime()
-  if (!(age < REFRESH_AFTER_DAYS * DAY_MS)) {
-    try {
-      const r = await fetch(
-        `${GRAPH}/refresh_access_token?grant_type=ig_refresh_token&access_token=${encodeURIComponent(token)}`
-      )
-      const body = await r.json()
-      if (r.ok && body.access_token) {
-        token = body.access_token
-        const now = new Date()
-        const save = await fetch(`${SUPABASE_URL}/rest/v1/site_tokens?name=eq.instagram`, {
-          method: 'PATCH',
-          headers: { ...db, 'Content-Type': 'application/json', Prefer: 'return=minimal' },
-          body: JSON.stringify({
-            token,
-            refreshed_at: now.toISOString(),
-            expires_at: new Date(now.getTime() + body.expires_in * 1000).toISOString(),
-          }),
-        })
-        refreshed = save.ok ? now.toISOString() : null
-        if (!save.ok) console.error('Instagram token refreshed but not saved', save.status)
-      } else {
-        console.error('Instagram token refresh failed', r.status, JSON.stringify(body).slice(0, 300))
-      }
-    } catch (err) {
-      console.error('Instagram token refresh unreachable', err?.message)
-    }
-  }
-
-  // 3. Media
+  // 2. Account, 3. Media
   let items
   try {
+    const accounts = (await graph('me/assigned_instagram_accounts?fields=id,username')).data || []
+    const account = accounts.find(a => a.username === ACCOUNT) || accounts[0]
+    if (!account) return fail(502, 'Token works but no Instagram account is assigned to it', true)
+
     const fields = 'id,media_type,media_url,thumbnail_url,permalink,timestamp'
-    const r = await fetch(
-      `${GRAPH}/${API_VERSION}/me/media?fields=${fields}&limit=${MAX_POSTS}&access_token=${encodeURIComponent(token)}`
-    )
-    const body = await r.json()
-    if (!r.ok) return fail(502, `Instagram responded ${r.status}: ${body?.error?.message || 'unknown error'}`, true)
-    items = (body.data || []).slice(0, MAX_POSTS)
+    items = ((await graph(`${account.id}/media?fields=${fields}&limit=${MAX_POSTS}`)).data || []).slice(0, MAX_POSTS)
   } catch (err) {
-    return fail(502, `Instagram unreachable: ${err?.message}`, true)
+    return fail(502, err.message, true)
   }
 
   // 4. Shape
@@ -142,10 +111,7 @@ export default async function handler(req, res) {
     if (item.media_url) return item.media_url
     if (item.media_type !== 'CAROUSEL_ALBUM') return null
     try {
-      const r = await fetch(
-        `${GRAPH}/${API_VERSION}/${item.id}/children?fields=media_type,media_url,thumbnail_url&access_token=${encodeURIComponent(token)}`
-      )
-      const first = (await r.json())?.data?.[0]
+      const first = (await graph(`${item.id}/children?fields=media_type,media_url,thumbnail_url`)).data?.[0]
       if (!first) return null
       return first.media_type === 'VIDEO' ? first.thumbnail_url || null : first.media_url || null
     } catch {
@@ -167,11 +133,5 @@ export default async function handler(req, res) {
 
   // 5. Answer
   res.setHeader('Cache-Control', 'public, s-maxage=3600, stale-while-revalidate=86400')
-  return res.status(200).json({
-    ok: true,
-    configured: true,
-    refreshed,
-    token_refreshed_at: refreshed || row.refreshed_at,
-    posts,
-  })
+  return res.status(200).json({ ok: true, configured: true, posts })
 }
