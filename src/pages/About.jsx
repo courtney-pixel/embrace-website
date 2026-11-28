@@ -13,7 +13,7 @@ export default function About() {
           <div className="vision-about-inner">
             <h2 className="our-why-heading">Our Vision</h2>
             <p className="overwhelm-body">
-              We&apos;re just getting started. As Embrace grows, a portion of every sale will go toward mental health initiatives with one clear goal: making therapy more accessible and affordable for the young adults who need it most.
+              Embrace is currently very fresh but in the future we have the goal of contributing a portion of our sales to mental health initiatives to help make therapy more accessible to young adults.
             </p>
           </div>
         </section>
