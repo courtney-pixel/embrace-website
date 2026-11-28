@@ -2020,7 +2020,7 @@ body::before {
 .col-title { position: relative; display: inline-block; width: min(620px, 86vw); line-height: 0; margin: 0; }
 .col-title img { width: 100%; height: auto; display: block; }
 .col-title__scr { font-family: 'Meow Script', cursive; font-weight: 400; font-size: clamp(1.9rem, 4.4vw, 3.6rem); line-height: 1; color: var(--red); position: absolute; left: 52%; bottom: -.55em; transform: rotate(-6deg); transform-origin: left bottom; white-space: nowrap; }
-@media (max-width: 480px) { .col-title__scr { bottom: -.75em; font-size: 1.6rem; } }
+@media (max-width: 480px) { .col-title__scr { left: 14%; bottom: -1.05em; font-size: 1.6rem; } }
 
 .col-bar { max-width: 1400px; margin: 0 auto; padding: clamp(1.5rem, 3vw, 2.2rem) clamp(1rem, 5vw, 5rem) 1.4rem; display: flex; gap: .5rem; flex-wrap: wrap; }
 .col-chip { --c: var(--blue); --fg: var(--off-white); display: inline-flex; align-items: center; gap: .5rem; font-family: 'Poppins', sans-serif; font-size: .75rem; font-weight: 600; padding: .45rem .95rem; border-radius: 100px; border: 1.5px solid var(--c); color: var(--text); background: transparent; cursor: pointer; }

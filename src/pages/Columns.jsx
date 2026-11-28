@@ -15,7 +15,7 @@ export default function Columns() {
         <header className="col-head">
           <h1 className="col-title">
             <img src="/columns/embrace-columns-blue.svg" alt="Columns" />
-            <span className="col-title__scr" aria-hidden="true">written down, finally</span>
+            <span className="col-title__scr" aria-hidden="true">from our journals to your screens</span>
           </h1>
         </header>
 
